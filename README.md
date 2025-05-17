@@ -11,13 +11,14 @@ A simple task manager web application built with Django and Tailwind CSS.
 - Set completion date and time for each task
 - Responsive and modern UI using Tailwind CSS
 - Animated task cards and interactive forms
+- **Unit tests for models and views**
 
 ## Setup
 
 1. **Clone the repository**
 
    ```
-   git clone <repo-url>
+   git clone https://github.com/Greyg12/ToDoAppDjango.git
    cd ToDoAppDjango
    ```
 
@@ -55,13 +56,15 @@ A simple task manager web application built with Django and Tailwind CSS.
 
 ## Running Tests
 
+Unit tests are provided for models and views. To run all tests:
+
 ```
 python manage.py test
 ```
 
 ## Project Structure
 
-- `tasks/` - Main Django app (models, views, templates)
+- `tasks/` - Main Django app (models, views, templates, tests)
 - `templates/tasks/` - HTML templates
 - `static/` - Static files (if needed)
 - `manage.py` - Django management script

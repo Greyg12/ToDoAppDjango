@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-green-400 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-md rounded p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Add New Task</h1>
+        {% if messages %}
+            <div id="message-box" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                {% for message in messages %}
+                    <span>{{ message }}</span>
+                {% endfor %}
+            </div>
+            <script>
+                setTimeout(() => {
+                    const messageBox = document.getElementById('message-box');
+                    if (messageBox) {
+                        messageBox.style.display = 'none';
+                    }
+                }, 3000); // Hide after 3 seconds
+            </script>
+        {% endif %}
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label for="title" class="block text-gray-700">Title:</label>
+                <input type="text" id="title" name="title" value="{{ title }}" required class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div>
+                <label for="description" class="block text-gray-700">Description:</label>
+                <textarea id="description" name="description" class="w-full border border-gray-300 rounded px-3 py-2 min-h-[45px] max-h-[450px]">{{ description }}</textarea>
+            </div>
+            <div>
+                <label for="progress" class="block text-gray-700">Progress (%):</label>
+                <input type="number" id="progress" name="progress" min="0" max="100" value="{{ progress|default:0 }}" class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div>
+                <label for="completed_at" class="block text-gray-700">Completion Date and Time:</label>
+                <input type="datetime-local" id="completed_at" name="completed_at" min="{{ today|date:'Y-m-d\\TH:i' }}" class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div class="flex justify-between">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Add Task</button>
+                <a href="{% url 'task_list' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Back</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

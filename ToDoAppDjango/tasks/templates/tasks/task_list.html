@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .task-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: scale(1.05); /* Slightly enlarge the task card */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+        }
+
+        .progress-bar {
+            position: relative;
+            height: 10px;
+            background-color: #e5e7eb; /* Light gray background */
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4caf50; /* Green color for progress */
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-green-400 min-h-screen flex flex-col items-center">
+    <h1 class="text-4xl font-bold text-gray-800 mt-8">Task Manager Django</h1>
+    <div class="mt-6">
+        <a href="{% url 'create_task' %}" class="bg-white text-gray-800 border border-gray-800 px-4 py-2 rounded hover:bg-gray-800 hover:text-white transition">Add New Task</a>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for task in tasks %}
+            <div class="bg-white shadow-md rounded p-4 task-card">
+                <p><strong>Title:</strong> {{ task.title }}</p>
+                <p><strong>Description:</strong> {{ task.description }}</p>
+                <p><strong>Progress:</strong> {{ task.progress }}%</p>
+                <p><strong>Created At:</strong> {{ task.created_at|date:"d F H:i" }}</p>
+                <p><strong>Completion Date:</strong> {{ task.completed_at|date:"d F H:i"|default:"N/A" }}</p>
+
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" style="width: {{ task.progress }}%;"></div>
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <a href="{% url 'edit_task' task.id %}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">Edit</a>
+                    <a href="{% url 'delete_task' task.id %}" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-gray-700">No tasks to display.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
